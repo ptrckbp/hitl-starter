@@ -1,0 +1,1 @@
+This is an example integration that sends all HITL requests to an external URL, and allows agent messages to be created via calling the endpoint.

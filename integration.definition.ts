@@ -1,12 +1,32 @@
-import { IntegrationDefinition, messages } from '@botpress/sdk'
-import { name, integrationName } from './package.json'
+import { IntegrationDefinition, messages, interfaces, z } from "@botpress/sdk";
+import { name, integrationName } from "./package.json";
 
 export default new IntegrationDefinition({
   name: integrationName ?? name,
-  version: '0.2.0',
+  version: "0.2.0",
+  readme: "README.md",
   channels: {
-    channel: {
+    hitl: {
       messages: { ...messages.defaults },
+      conversation: {
+        tags: {
+          id: {
+            title: "Remote Conversation ID",
+          }
+        }
+      }
     },
   },
-})
+  configuration: {
+    schema: z.object({
+      endpointUrl: z.string(),
+    }),
+  },
+  user: {
+    tags: {
+      id: {
+        title: "Remote User ID",
+      },
+    },
+  },
+}).extend(interfaces.hitl, () => ({}));
