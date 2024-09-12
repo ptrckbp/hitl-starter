@@ -21,13 +21,6 @@ export default new botpress.Integration({
   unregister: async () => {},
   actions: {
     startHitl: async ({ ctx, input, client }) => {
-      const {
-        conversation: { id: conversationId },
-      } = await client.createConversation({
-        channel: "hitl",
-        tags: {},
-      });
-
       const remoteTicket = (
         await axios.post(ctx.configuration.endpointUrl, {
           type: "createRemoteConversation",
@@ -35,8 +28,10 @@ export default new botpress.Integration({
         })
       ).data;
 
-      await client.updateConversation({
-        id: conversationId,
+      const {
+        conversation: { id: conversationId },
+      } = await client.createConversation({
+        channel: "hitl",
         tags: {
           id: remoteTicket.id,
         },
@@ -61,10 +56,6 @@ export default new botpress.Integration({
       client: bpClient,
       input,
     }) => {
-      const { user } = await bpClient.createUser({
-        tags: {}, // need the tags otherwise it doesn't work
-      });
-
       const remoteUser = (
         await axios.post(ctx.configuration.endpointUrl, {
           type: "createRemoteUser",
@@ -72,8 +63,7 @@ export default new botpress.Integration({
         })
       ).data;
 
-      await bpClient.updateUser({
-        id: user.id,
+      const { user } = await bpClient.createUser({
         tags: {
           id: `${remoteUser.id}`,
         },
@@ -186,7 +176,6 @@ export default new botpress.Integration({
         agentDisplayName,
       } = body;
 
-
       const { conversation } = await client.getOrCreateConversation({
         channel: "hitl",
         tags: {
@@ -200,7 +189,8 @@ export default new botpress.Integration({
         },
       });
 
-      await client.createMessage({ // send a message to the user 
+      await client.createMessage({
+        // send a message to the user
         tags: {},
         type: "text",
         userId: user.id,
@@ -230,7 +220,7 @@ export default new botpress.Integration({
         },
       });
 
-      await client.createEvent({  
+      await client.createEvent({
         type: "hitlStopped", // this event releases the conversation from the hitl
         payload: {
           conversationId: conversation.id,
