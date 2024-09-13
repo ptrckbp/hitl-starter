@@ -7,7 +7,6 @@ import fs from "fs";
 import {
   PingPayload,
   CreateRemoteConversationPayload,
-  AddMessageToRemoteConversationPayload,
   CloseRemoteTicketPayload,
   CreateRemoteUserPayload,
   BotSendsMessagePayload,
@@ -15,7 +14,6 @@ import {
   CloseTicketPayload,
   PingResponse,
   CreateRemoteConversationResponse,
-  AddMessageToRemoteConversationResponse,
   CloseRemoteTicketResponse,
   CreateRemoteUserResponse,
   BotSendsMessageResponse,
@@ -30,10 +28,6 @@ registry.register(
   "CreateRemoteConversationPayload",
   CreateRemoteConversationPayload
 );
-registry.register(
-  "AddMessageToRemoteConversationPayload",
-  AddMessageToRemoteConversationPayload
-);
 registry.register("CloseRemoteTicketPayload", CloseRemoteTicketPayload);
 registry.register("CreateRemoteUserPayload", CreateRemoteUserPayload);
 registry.register("BotSendsMessagePayload", BotSendsMessagePayload);
@@ -45,10 +39,6 @@ registry.register("PingResponse", PingResponse);
 registry.register(
   "CreateRemoteConversationResponse",
   CreateRemoteConversationResponse
-);
-registry.register(
-  "AddMessageToRemoteConversationResponse",
-  AddMessageToRemoteConversationResponse
 );
 registry.register("CloseRemoteTicketResponse", CloseRemoteTicketResponse);
 registry.register("CreateRemoteUserResponse", CreateRemoteUserResponse);
@@ -63,7 +53,7 @@ const swaggerOptionsBotpressWebhook = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Botpress HITL API - Calling Botpress",
+      title: "Botpress HITL API",
       version: "1.0.0",
       description: "The Botpress HITL API to interact with conversations",
     },
@@ -83,7 +73,7 @@ const swaggerOptionsExternalService = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Botpress HITL API - Handling Requests",
+      title: "Botpress HITL API",
       version: "1.0.0",
       description: "The API you need to implement on your end to receive HITL requests",
     },

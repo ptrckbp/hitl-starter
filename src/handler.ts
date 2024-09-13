@@ -7,7 +7,7 @@ import { z } from "zod";
  *   post:
  *     summary: Send a message from the agent to the bot.
  *     tags:
- *      - Endpoints to implement
+ *      - Calling the API
  *     description: Receives a message from the agent and forwards it to the bot conversation.
  *     operationId: messageFromAgent
  *     servers:
@@ -54,7 +54,7 @@ export const handleAgentMessage = async (
  *   post:
  *     summary: Notify that an agent was assigned to a conversation.
  *     tags:
- *      - Endpoints to implement
+ *      - Calling the API
  *     description: This endpoint is triggered when an agent is assigned to a conversation.
  *     operationId: agentAssigned
  *     servers:
@@ -109,9 +109,9 @@ export const handleAgentAssigned = async (
  * @swagger
  * /close-ticket:
  *   post:
- *     summary: Stop the human-in-the-loop (HitL) session and close the ticket.
+ *     summary: Stop the human-in-the-loop (HITL) session and close the ticket.
  *     tags:
- *      - Endpoints to implement
+ *      - Calling the API
  *     description: This endpoint is called when the agent stops the human-in-the-loop session.
  *     operationId: stopHitl
  *     servers:
@@ -124,7 +124,7 @@ export const handleAgentAssigned = async (
  *             $ref: '#/components/schemas/CloseTicketPayload'
  *     responses:
  *       200:
- *         description: The HitL session was successfully stopped and the conversation was released.
+ *         description: The HITL session was successfully stopped and the conversation was released.
  */
 export const handleStopHitl = async (
   client: any,

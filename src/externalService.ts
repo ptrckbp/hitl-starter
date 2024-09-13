@@ -2,13 +2,11 @@ import axios from "axios";
 import {
   PingPayload,
   CreateRemoteConversationPayload,
-  AddMessageToRemoteConversationPayload,
   CloseRemoteTicketPayload,
   CreateRemoteUserPayload,
   BotSendsMessagePayload,
   PingResponse,
   CreateRemoteConversationResponse,
-  AddMessageToRemoteConversationResponse,
   CloseRemoteTicketResponse,
   CreateRemoteUserResponse,
   BotSendsMessageResponse,
@@ -33,11 +31,11 @@ import {
  *             schema:
  *               $ref: '#/components/schemas/PingResponse'
  */
-export const pingExternalService = async (endpointUrl: string) => {
+export const pingExternalService = async (endpointBaseUrl: string) => {
   const pingPayload = PingPayload.parse({
     type: "ping",
   });
-  const response = await axios.post(endpointUrl, pingPayload);
+  const response = await axios.post(`${endpointBaseUrl}/ping`, pingPayload);
   return PingResponse.parse(response.data);
 };
 
@@ -66,7 +64,7 @@ export const pingExternalService = async (endpointUrl: string) => {
  *               $ref: '#/components/schemas/CreateRemoteConversationResponse'
  */
 export const createRemoteConversation = async (
-  endpointUrl: string,
+  endpointBaseUrl: string,
   input: any
 ) => {
   const createRemoteConversationPayload = CreateRemoteConversationPayload.parse(
@@ -76,47 +74,10 @@ export const createRemoteConversation = async (
     }
   );
   const response = await axios.post(
-    endpointUrl,
+    `${endpointBaseUrl}/createRemoteConversation`,
     createRemoteConversationPayload
   );
   return CreateRemoteConversationResponse.parse(response.data);
-};
-
-/**
- * @swagger
- * /addMessageToRemoteConversation:
- *   post:
- *     summary: Add a message to a conversation
- *     tags:
- *      - Endpoints to implement
- *     description: Adds a message to an existing remote conversation on your service. This message is sent by the user and is part of the HITL process.
- *     operationId: addMessageToRemoteConversation
- *     servers:
- *       - url: https://YOUR_SERVICE.COM
- *     requestBody:
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/AddMessageToRemoteConversationPayload'
- *     responses:
- *       200:
- *         description: Message added successfully.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/AddMessageToRemoteConversationResponse'
- */
-export const addMessageToRemoteConversation = async (
-  endpointUrl: string,
-  message: any,
-  ticketId: string
-) => {
-  const addMessagePayload = AddMessageToRemoteConversationPayload.parse({
-    type: "addMessageToRemoteConversation",
-    payload: { ...message, ticketId },
-  });
-  const response = await axios.post(endpointUrl, addMessagePayload);
-  return AddMessageToRemoteConversationResponse.parse(response.data);
 };
 
 /**
@@ -144,14 +105,17 @@ export const addMessageToRemoteConversation = async (
  *               $ref: '#/components/schemas/CloseRemoteTicketResponse'
  */
 export const closeRemoteTicket = async (
-  endpointUrl: string,
+  endpointBaseUrl: string,
   botpressConversationId: string
 ) => {
   const closeTicketPayload = CloseRemoteTicketPayload.parse({
     type: "closeRemoteTicket",
     payload: { botpressConversationId },
   });
-  const response = await axios.post(endpointUrl, closeTicketPayload);
+  const response = await axios.post(
+    `${endpointBaseUrl}/closeRemoteTicket`,
+    closeTicketPayload
+  );
   return CloseRemoteTicketResponse.parse(response.data);
 };
 
@@ -179,12 +143,15 @@ export const closeRemoteTicket = async (
  *             schema:
  *               $ref: '#/components/schemas/CreateRemoteUserResponse'
  */
-export const createRemoteUser = async (endpointUrl: string, input: any) => {
+export const createRemoteUser = async (endpointBaseUrl: string, input: any) => {
   const createRemoteUserPayload = CreateRemoteUserPayload.parse({
     type: "createRemoteUser",
     payload: { role: "end-user", ...input },
   });
-  const response = await axios.post(endpointUrl, createRemoteUserPayload);
+  const response = await axios.post(
+    `${endpointBaseUrl}/createRemoteUser`,
+    createRemoteUserPayload
+  );
   return CreateRemoteUserResponse.parse(response.data);
 };
 
@@ -213,7 +180,7 @@ export const createRemoteUser = async (endpointUrl: string, input: any) => {
  *               $ref: '#/components/schemas/BotSendsMessageResponse'
  */
 export const botSendsMessage = async (
-  endpointUrl: string,
+  endpointBaseUrl: string,
   conversationId: string,
   userId: string,
   payload: any
@@ -226,6 +193,9 @@ export const botSendsMessage = async (
       payload,
     },
   });
-  const response = await axios.post(endpointUrl, botSendsMessagePayload);
+  const response = await axios.post(
+    `${endpointBaseUrl}/botSendsMessage`,
+    botSendsMessagePayload
+  );
   return BotSendsMessageResponse.parse(response.data);
 };

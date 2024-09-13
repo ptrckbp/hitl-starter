@@ -31,18 +31,6 @@ export const CreateRemoteConversationPayload = z
   })
   .openapi("CreateRemoteConversationPayload");
 
-export const AddMessageToRemoteConversationPayload = z
-  .object({
-    type: z.literal("addMessageToRemoteConversation"),
-    payload: z.object({
-      text: z.string(),
-      author: z.string().optional(),
-      timestamp: z.string().optional(),
-      ticketId: z.string(),
-    }),
-  })
-  .openapi("AddMessageToRemoteConversationPayload");
-
 export const CloseRemoteTicketPayload = z
   .object({
     type: z.literal("closeRemoteTicket"),
@@ -92,7 +80,6 @@ export const CloseTicketPayload = z
 export const AllPayloads = z.union([
   PingPayload,
   CreateRemoteConversationPayload,
-  AddMessageToRemoteConversationPayload,
   CloseRemoteTicketPayload,
   CreateRemoteUserPayload,
   BotSendsMessagePayload,
@@ -118,7 +105,7 @@ export const HandlerInput = z
   .object({
     ctx: z.object({
       configuration: z.object({
-        endpointUrl: z.string(),
+        endpointBaseUrl: z.string(),
       }),
     }),
     client: z.any(), // Replace with specific client type if available
@@ -137,14 +124,6 @@ export const CreateRemoteConversationResponse = z
     }),
   })
   .openapi("CreateRemoteConversationResponse");
-
-export const AddMessageToRemoteConversationResponse = z
-  .object({
-    data: z.object({
-      messageId: z.string(),
-    }),
-  })
-  .openapi("AddMessageToRemoteConversationResponse");
 
 export const CloseRemoteTicketResponse = z
   .object({

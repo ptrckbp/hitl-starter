@@ -3,7 +3,6 @@ import axios from 'axios';
 import {
   pingExternalService,
   createRemoteConversation,
-  addMessageToRemoteConversation,
   closeRemoteTicket,
   createRemoteUser,
 } from './externalService'; 
@@ -23,7 +22,7 @@ const sendRawPayload = async ({
   ctx: any;
   user: any;
 }) => {
-  await axios.post(ctx.configuration.endpointUrl, {
+  await axios.post(ctx.configuration.endpointBaseUrl, {
     type: 'botSendsMessage',
     payload: {
       ...payload, // Send the entire payload as-is
@@ -35,19 +34,12 @@ const sendRawPayload = async ({
 
 export default new botpress.Integration({
   register: async ({ ctx }) => {
-    await pingExternalService(ctx.configuration.endpointUrl);
+    await pingExternalService(ctx.configuration.endpointBaseUrl);
   },
   unregister: async () => {},
   actions: {
     startHitl: async ({ ctx, input, client }) => {
-      const remoteTicket = (await createRemoteConversation(ctx.configuration.endpointUrl, input)).data;
-
-      const { messages } = input;
-      if (messages) {
-        for (const message of messages) {
-          await addMessageToRemoteConversation(ctx.configuration.endpointUrl, message, remoteTicket.id);
-        }
-      }
+      const remoteTicket = (await createRemoteConversation(ctx.configuration.endpointBaseUrl, input)).data;
 
       const { conversation: { id: conversationId } } = await client.createConversation({
         channel: 'hitl',
@@ -61,11 +53,11 @@ export default new botpress.Integration({
       };
     },
     stopHitl: async ({ ctx, input }) => {
-      await closeRemoteTicket(ctx.configuration.endpointUrl, input.conversationId);
+      await closeRemoteTicket(ctx.configuration.endpointBaseUrl, input.conversationId);
       return {};
     },
     createUser: async ({ ctx, client: bpClient, input }) => {
-      const remoteUser = (await createRemoteUser(ctx.configuration.endpointUrl, input)).data;
+      const remoteUser = (await createRemoteUser(ctx.configuration.endpointBaseUrl, input)).data;
 
       const { user } = await bpClient.createUser({
         tags: {

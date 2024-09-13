@@ -19,7 +19,7 @@ export default new IntegrationDefinition({
   },
   configuration: {
     schema: z.object({
-      endpointUrl: z.string(),
+      endpointBaseUrl: z.string(),
     }),
   },
   user: {

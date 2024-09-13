@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Botpress HITL API - Handling Requests",
+    "title": "Botpress HITL API",
     "version": "1.0.0",
     "description": "The API you need to implement on your end to receive HITL requests"
   },
@@ -66,42 +66,6 @@
                 }
               }
             }
-          }
-        },
-        "required": [
-          "type",
-          "payload"
-        ]
-      },
-      "AddMessageToRemoteConversationPayload": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "addMessageToRemoteConversation"
-            ]
-          },
-          "payload": {
-            "type": "object",
-            "properties": {
-              "text": {
-                "type": "string"
-              },
-              "author": {
-                "type": "string"
-              },
-              "timestamp": {
-                "type": "string"
-              },
-              "ticketId": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "text",
-              "ticketId"
-            ]
           }
         },
         "required": [
@@ -263,25 +227,6 @@
           "data"
         ]
       },
-      "AddMessageToRemoteConversationResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "messageId": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "messageId"
-            ]
-          }
-        },
-        "required": [
-          "data"
-        ]
-      },
       "CloseRemoteTicketResponse": {
         "type": "object",
         "properties": {
@@ -387,42 +332,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateRemoteConversationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/addMessageToRemoteConversation": {
-      "post": {
-        "summary": "Add a message to a conversation",
-        "tags": [
-          "Endpoints to implement"
-        ],
-        "description": "Adds a message to an existing remote conversation on your service. This message is sent by the user and is part of the HITL process.",
-        "operationId": "addMessageToRemoteConversation",
-        "servers": [
-          {
-            "url": "https://YOUR_SERVICE.COM"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddMessageToRemoteConversationPayload"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Message added successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AddMessageToRemoteConversationResponse"
                 }
               }
             }
