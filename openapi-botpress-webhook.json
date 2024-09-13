@@ -1,0 +1,426 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Botpress HITL API - Calling Botpress",
+    "version": "1.0.0",
+    "description": "The Botpress HITL API to interact with conversations"
+  },
+  "servers": [
+    {
+      "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID",
+      "description": "The Botpress HITL API endpoint to interact with conversations"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "PingPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ping"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "CreateRemoteConversationPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "createRemoteConversation"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "author": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "AddMessageToRemoteConversationPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "addMessageToRemoteConversation"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              },
+              "ticketId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "text",
+              "ticketId"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "CloseRemoteTicketPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "closeRemoteTicket"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "botpressConversationId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "botpressConversationId"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "CreateRemoteUserPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "createRemoteUser"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "end-user"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "BotSendsMessagePayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "botSendsMessage"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "remoteConversationId": {
+                "type": "string"
+              },
+              "remoteUserId": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "remoteConversationId",
+              "remoteUserId",
+              "text"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "AgentAssignedPayload": {
+        "type": "object",
+        "properties": {
+          "remoteConversationId": {
+            "type": "string"
+          },
+          "remoteUserId": {
+            "type": "string"
+          },
+          "agentDisplayName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "remoteConversationId",
+          "remoteUserId",
+          "agentDisplayName"
+        ]
+      },
+      "CloseTicketPayload": {
+        "type": "object",
+        "properties": {
+          "remoteConversationId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "remoteConversationId"
+        ]
+      },
+      "PingResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateRemoteConversationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "AddMessageToRemoteConversationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "messageId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "messageId"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CloseRemoteTicketResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "CreateRemoteUserResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "role"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "BotSendsMessageResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/message-from-agent": {
+      "post": {
+        "summary": "Send a message from the agent to the bot.",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "Receives a message from the agent and forwards it to the bot conversation.",
+        "operationId": "messageFromAgent",
+        "servers": [
+          {
+            "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentAssignedPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message successfully sent to the bot conversation."
+          }
+        }
+      }
+    },
+    "/agent-assigned": {
+      "post": {
+        "summary": "Notify that an agent was assigned to a conversation.",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "This endpoint is triggered when an agent is assigned to a conversation.",
+        "operationId": "agentAssigned",
+        "servers": [
+          {
+            "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AgentAssignedPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Agent assignment successfully processed."
+          }
+        }
+      }
+    },
+    "/close-ticket": {
+      "post": {
+        "summary": "Stop the human-in-the-loop (HitL) session and close the ticket.",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "This endpoint is called when the agent stops the human-in-the-loop session.",
+        "operationId": "stopHitl",
+        "servers": [
+          {
+            "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseTicketPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The HitL session was successfully stopped and the conversation was released."
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

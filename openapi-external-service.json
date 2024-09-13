@@ -1,0 +1,543 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Botpress HITL API - Handling Requests",
+    "version": "1.0.0",
+    "description": "The API you need to implement on your end to receive HITL requests"
+  },
+  "servers": [
+    {
+      "url": "https://YOUR_EXTERNAL_SERVICE.COM",
+      "description": "External Service URL"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "PingPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "ping"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "CreateRemoteConversationPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "createRemoteConversation"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "messages": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "author": {
+                      "type": "string"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "text"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "AddMessageToRemoteConversationPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "addMessageToRemoteConversation"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "author": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string"
+              },
+              "ticketId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "text",
+              "ticketId"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "CloseRemoteTicketPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "closeRemoteTicket"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "botpressConversationId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "botpressConversationId"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "CreateRemoteUserPayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "createRemoteUser"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string",
+                "enum": [
+                  "end-user"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "BotSendsMessagePayload": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "botSendsMessage"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "remoteConversationId": {
+                "type": "string"
+              },
+              "remoteUserId": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "remoteConversationId",
+              "remoteUserId",
+              "text"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "payload"
+        ]
+      },
+      "AgentAssignedPayload": {
+        "type": "object",
+        "properties": {
+          "remoteConversationId": {
+            "type": "string"
+          },
+          "remoteUserId": {
+            "type": "string"
+          },
+          "agentDisplayName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "remoteConversationId",
+          "remoteUserId",
+          "agentDisplayName"
+        ]
+      },
+      "CloseTicketPayload": {
+        "type": "object",
+        "properties": {
+          "remoteConversationId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "remoteConversationId"
+        ]
+      },
+      "PingResponse": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateRemoteConversationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "AddMessageToRemoteConversationResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "messageId": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "messageId"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "CloseRemoteTicketResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "CreateRemoteUserResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "role"
+            ]
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "BotSendsMessageResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/ping": {
+      "post": {
+        "summary": "Ping your service",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "An authenticated endpoint that allows your service to say it's ready to receive requests.",
+        "operationId": "pingExternalService",
+        "servers": [
+          {
+            "url": "https://YOUR_SERVICE.COM"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful ping.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createRemoteConversation": {
+      "post": {
+        "summary": "Create a conversation in your service",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "Creates a remote conversation on your service. This is required for the HITL process to work.",
+        "operationId": "createRemoteConversation",
+        "servers": [
+          {
+            "url": "https://YOUR_SERVICE.COM"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRemoteConversationPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conversation created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRemoteConversationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/addMessageToRemoteConversation": {
+      "post": {
+        "summary": "Add a message to a conversation",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "Adds a message to an existing remote conversation on your service. This message is sent by the user and is part of the HITL process.",
+        "operationId": "addMessageToRemoteConversation",
+        "servers": [
+          {
+            "url": "https://YOUR_SERVICE.COM"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMessageToRemoteConversationPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message added successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddMessageToRemoteConversationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/closeRemoteTicket": {
+      "post": {
+        "summary": "Close a ticket",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "Closes a ticket on your service. Once closed, no further actions are expected for this conversation.",
+        "operationId": "closeRemoteTicket",
+        "servers": [
+          {
+            "url": "https://YOUR_SERVICE.COM"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloseRemoteTicketPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket closed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CloseRemoteTicketResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createRemoteUser": {
+      "post": {
+        "summary": "Create a user",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "Creates a user on your service. This is necessary to associate users with conversations in the HITL process.",
+        "operationId": "createRemoteUser",
+        "servers": [
+          {
+            "url": "https://YOUR_SERVICE.COM"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRemoteUserPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateRemoteUserResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/botSendsMessage": {
+      "post": {
+        "summary": "Send a message to the agent",
+        "tags": [
+          "Endpoints to implement"
+        ],
+        "description": "Sends a message from the bot to the agent conversation on your service as part of the HITL process.",
+        "operationId": "botSendsMessage",
+        "servers": [
+          {
+            "url": "https://YOUR_SERVICE.COM"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BotSendsMessagePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message sent successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BotSendsMessageResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

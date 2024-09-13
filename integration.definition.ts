@@ -10,7 +10,7 @@ export default new IntegrationDefinition({
       messages: { ...messages.defaults },
       conversation: {
         tags: {
-          id: {
+          externalId: {
             title: "Remote Conversation ID",
           }
         }
@@ -24,7 +24,7 @@ export default new IntegrationDefinition({
   },
   user: {
     tags: {
-      id: {
+      externalId: {
         title: "Remote User ID",
       },
     },
