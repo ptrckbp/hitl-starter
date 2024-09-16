@@ -17,7 +17,7 @@ import {
   CloseRemoteTicketResponse,
   CreateRemoteUserResponse,
   BotSendsMessageResponse,
-} from "./types";
+} from "../src/types";
 
 // Initialize the OpenAPI registry
 const registry = new OpenAPIRegistry();

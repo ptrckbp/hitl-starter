@@ -5,7 +5,7 @@
     "login": "bp login",
     "start": "nodemon --watch \"./*\" --ext \"ts\" --exec \"bp deploy -y\"",
     "deploy": "bp deploy",
-    "generate-docs": "ts-node ./src/generateDocs.ts"
+    "generate-docs": "ts-node ./docs/generateDocs.ts"
   },
   "keywords": [],
   "private": true,
