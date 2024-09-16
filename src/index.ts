@@ -6,11 +6,10 @@ import {
   closeRemoteTicket,
   createRemoteUser,
 } from './externalService'; 
-import { handler } from './handler'; // Import the refactored handler
+import { handler } from './handler'; 
 
 // Helper function to send raw payload
 const sendRawPayload = async ({
-  client,
   payload,
   conversation,
   ctx,

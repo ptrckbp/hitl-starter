@@ -4,8 +4,6 @@ import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 // Extend Zod with OpenAPI support
 extendZodWithOpenApi(z);
 
-// Define types for common payloads
-
 export const PingPayload = z
   .object({
     type: z.literal("ping"),
@@ -75,17 +73,6 @@ export const CloseTicketPayload = z
     remoteConversationId: z.string(),
   })
   .openapi("CloseTicketPayload");
-
-// Export all payload types in a single object for use in the handler
-export const AllPayloads = z.union([
-  PingPayload,
-  CreateRemoteConversationPayload,
-  CloseRemoteTicketPayload,
-  CreateRemoteUserPayload,
-  BotSendsMessagePayload,
-  AgentAssignedPayload,
-  CloseTicketPayload,
-]);
 
 // Define conversation and user tags
 export const ConversationTags = z

@@ -1,4 +1,4 @@
-import { AllPayloads, AgentAssignedPayload, CloseTicketPayload } from "./types";
+import { AgentAssignedPayload, CloseTicketPayload } from "./types";
 import { z } from "zod";
 
 /**
