@@ -76,7 +76,7 @@ Refer to the \`src/externalService.ts\` file for the implementation details of t
 It also exposes the following endpoints for you to interact with Botpress conversations. 
 - **\`/message-from-agent\`** - Sends a message from the agent to the user through Botpress.
 - **\`/agent-assigned\`** - Assigns an agent to a conversation
-- **\`/close-ticket\`** - Closes a ticket, ending HITL in the conversation.
+- **\`/stop-hitl\`** - Closes a ticket, ending HITL in the conversation.
 
 ## Scripts
 
