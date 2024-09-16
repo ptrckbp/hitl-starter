@@ -117,11 +117,9 @@ export const PingResponse = z.object({}).openapi("PingResponse");
 
 export const CreateRemoteConversationResponse = z
   .object({
-    data: z.object({
-      id: z.string(),
-      title: z.string().optional(),
-      description: z.string().optional(),
-    }),
+    id: z.string(),
+    title: z.string().optional(),
+    description: z.string().optional(),
   })
   .openapi("CreateRemoteConversationResponse");
 
@@ -133,10 +131,8 @@ export const CloseRemoteTicketResponse = z
 
 export const CreateRemoteUserResponse = z
   .object({
-    data: z.object({
-      id: z.string(),
-      role: z.string(),
-    }),
+    id: z.string(),
+    role: z.string(),
   })
   .openapi("CreateRemoteUserResponse");
 

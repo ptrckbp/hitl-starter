@@ -39,7 +39,7 @@ export default new botpress.Integration({
   unregister: async () => {},
   actions: {
     startHitl: async ({ ctx, input, client }) => {
-      const remoteTicket = (await createRemoteConversation(ctx.configuration.endpointBaseUrl, input)).data;
+      const remoteTicket = await createRemoteConversation(ctx.configuration.endpointBaseUrl, input);
 
       const { conversation: { id: conversationId } } = await client.createConversation({
         channel: 'hitl',
@@ -57,7 +57,7 @@ export default new botpress.Integration({
       return {};
     },
     createUser: async ({ ctx, client: bpClient, input }) => {
-      const remoteUser = (await createRemoteUser(ctx.configuration.endpointBaseUrl, input)).data;
+      const remoteUser = await createRemoteUser(ctx.configuration.endpointBaseUrl, input);
 
       const { user } = await bpClient.createUser({
         tags: {

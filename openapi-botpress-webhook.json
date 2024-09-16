@@ -210,26 +210,18 @@
       "CreateRemoteConversationResponse": {
         "type": "object",
         "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "title": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id"
-            ]
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
           }
         },
         "required": [
-          "data"
+          "id"
         ]
       },
       "CloseRemoteTicketResponse": {
@@ -246,24 +238,16 @@
       "CreateRemoteUserResponse": {
         "type": "object",
         "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "role": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "id",
-              "role"
-            ]
+          "id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
           }
         },
         "required": [
-          "data"
+          "id",
+          "role"
         ]
       },
       "BotSendsMessageResponse": {
