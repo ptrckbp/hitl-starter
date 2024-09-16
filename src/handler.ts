@@ -1,4 +1,4 @@
-import { AgentAssignedPayload, StopHitlPayload } from "./types";
+import { AgentAssignedPayload, AgentMessagePayload, StopHitlPayload } from "./types";
 import { z } from "zod";
 
 /**
@@ -15,14 +15,14 @@ import { z } from "zod";
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/AgentAssignedPayload'
+ *             $ref: '#/components/schemas/AgentMessagePayload'
  *     responses:
  *       200:
  *         description: Message successfully sent to the bot conversation.
  */
 export const handleAgentMessage = async (
   client: any,
-  body: z.infer<typeof AgentAssignedPayload>
+  body: z.infer<typeof AgentMessagePayload>
 ) => {
   const { conversation } = await client.getOrCreateConversation({
     channel: "hitl",
@@ -39,10 +39,10 @@ export const handleAgentMessage = async (
 
   await client.createMessage({
     tags: {},
-    type: "text",
+    type: body.messageType, // Use the messageType from the body
     userId: user.id,
     conversationId: conversation.id,
-    payload: { text: body.text },
+    payload: body.payload, // Use the payload from the body
   });
 };
 
@@ -82,15 +82,6 @@ export const handleAgentAssigned = async (
     },
   });
 
-  await client.createMessage({
-    tags: {},
-    type: "text",
-    userId: user.id,
-    conversationId: conversation.id,
-    payload: {
-      text: `\`${body.agentDisplayName} has joined the chat and will be with you momentarily.\``,
-    },
-  });
 
   await client.createEvent({
     type: "hitlAssigned",

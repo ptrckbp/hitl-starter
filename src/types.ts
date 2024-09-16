@@ -56,6 +56,15 @@ export const BotSendsMessagePayload = z
   })
   .openapi("BotSendsMessagePayload");
 
+export const AgentMessagePayload = z
+  .object({
+    remoteConversationId: z.string(),
+    remoteUserId: z.string(),
+    messageType: z.string(), 
+    payload: z.object({}).passthrough(), 
+  })
+  .openapi("AgentMessagePayload");
+
 export const AgentAssignedPayload = z
   .object({
     remoteConversationId: z.string(),
@@ -95,7 +104,6 @@ export const HandlerInput = z
     input: z.any(), // Replace with specific input type if available
   })
   .openapi("HandlerInput");
-
 
 export const CreateRemoteConversationResponse = z
   .object({
