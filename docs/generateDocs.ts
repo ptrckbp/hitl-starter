@@ -11,12 +11,11 @@ import {
   CreateRemoteUserPayload,
   BotSendsMessagePayload,
   AgentAssignedPayload,
-  CloseTicketPayload,
-  PingResponse,
+  StopHitlPayload,
   CreateRemoteConversationResponse,
   CloseRemoteTicketResponse,
   CreateRemoteUserResponse,
-  BotSendsMessageResponse,
+  
 } from "../src/types";
 
 // Initialize the OpenAPI registry
@@ -32,17 +31,15 @@ registry.register("CloseRemoteTicketPayload", CloseRemoteTicketPayload);
 registry.register("CreateRemoteUserPayload", CreateRemoteUserPayload);
 registry.register("BotSendsMessagePayload", BotSendsMessagePayload);
 registry.register("AgentAssignedPayload", AgentAssignedPayload);
-registry.register("CloseTicketPayload", CloseTicketPayload);
+registry.register("StopHitlPayload", StopHitlPayload);
 
 // Register response schemas using the registry
-registry.register("PingResponse", PingResponse);
 registry.register(
   "CreateRemoteConversationResponse",
   CreateRemoteConversationResponse
 );
 registry.register("CloseRemoteTicketResponse", CloseRemoteTicketResponse);
 registry.register("CreateRemoteUserResponse", CreateRemoteUserResponse);
-registry.register("BotSendsMessageResponse", BotSendsMessageResponse);
 
 // Generate the OpenAPI components from Zod schemas
 const generator = new OpenApiGeneratorV3(registry.definitions);

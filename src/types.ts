@@ -41,11 +41,7 @@ export const CloseRemoteTicketPayload = z
 export const CreateRemoteUserPayload = z
   .object({
     type: z.literal("createRemoteUser"),
-    payload: z.object({
-      role: z.literal("end-user"),
-      name: z.string().optional(),
-      email: z.string().optional(),
-    }),
+    payload: z.object({}),
   })
   .openapi("CreateRemoteUserPayload");
 
@@ -55,7 +51,7 @@ export const BotSendsMessagePayload = z
     payload: z.object({
       remoteConversationId: z.string(),
       remoteUserId: z.string(),
-      text: z.string(),
+      payload: z.object({}).passthrough(),
     }),
   })
   .openapi("BotSendsMessagePayload");
@@ -68,11 +64,11 @@ export const AgentAssignedPayload = z
   })
   .openapi("AgentAssignedPayload");
 
-export const CloseTicketPayload = z
+export const StopHitlPayload = z
   .object({
     remoteConversationId: z.string(),
   })
-  .openapi("CloseTicketPayload");
+  .openapi("StopHitlPayload");
 
 // Define conversation and user tags
 export const ConversationTags = z
@@ -100,7 +96,6 @@ export const HandlerInput = z
   })
   .openapi("HandlerInput");
 
-export const PingResponse = z.object({}).openapi("PingResponse");
 
 export const CreateRemoteConversationResponse = z
   .object({
@@ -119,12 +114,5 @@ export const CloseRemoteTicketResponse = z
 export const CreateRemoteUserResponse = z
   .object({
     id: z.string(),
-    role: z.string(),
   })
   .openapi("CreateRemoteUserResponse");
-
-export const BotSendsMessageResponse = z
-  .object({
-    status: z.string(),
-  })
-  .openapi("BotSendsMessageResponse");

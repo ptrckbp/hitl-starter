@@ -1,4 +1,4 @@
-import { AgentAssignedPayload, CloseTicketPayload } from "./types";
+import { AgentAssignedPayload, StopHitlPayload } from "./types";
 import { z } from "zod";
 
 /**
@@ -103,7 +103,7 @@ export const handleAgentAssigned = async (
 
 /**
  * @swagger
- * /close-ticket:
+ * /stop-hitl:
  *   post:
  *     summary: Stop the human-in-the-loop (HITL) session and close the ticket.
  *     tags:
@@ -115,14 +115,14 @@ export const handleAgentAssigned = async (
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/CloseTicketPayload'
+ *             $ref: '#/components/schemas/StopHitlPayload'
  *     responses:
  *       200:
  *         description: The HITL session was successfully stopped and the conversation was released.
  */
 export const handleStopHitl = async (
   client: any,
-  body: z.infer<typeof CloseTicketPayload>
+  body: z.infer<typeof StopHitlPayload>
 ) => {
   const { conversation } = await client.getOrCreateConversation({
     channel: "hitl",
@@ -169,7 +169,7 @@ export const handler = async ({
     return;
   }
 
-  if (req.path === "/close-ticket" && req.method === "POST") {
+  if (req.path === "/stop-hitl" && req.method === "POST") {
     await handleStopHitl(client, body);
     return;
   }

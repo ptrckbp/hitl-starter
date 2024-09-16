@@ -5,11 +5,9 @@ import {
   CloseRemoteTicketPayload,
   CreateRemoteUserPayload,
   BotSendsMessagePayload,
-  PingResponse,
   CreateRemoteConversationResponse,
   CloseRemoteTicketResponse,
   CreateRemoteUserResponse,
-  BotSendsMessageResponse,
 } from "./types";
 
 /**
@@ -24,17 +22,13 @@ import {
  *     responses:
  *       200:
  *         description: Successful ping.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/PingResponse'
  */
 export const pingExternalService = async (endpointBaseUrl: string) => {
   const pingPayload = PingPayload.parse({
     type: "ping",
   });
   const response = await axios.post(`${endpointBaseUrl}/ping`, pingPayload);
-  return PingResponse.parse(response.data);
+  return response.data;
 };
 
 /**
@@ -102,13 +96,13 @@ export const closeRemoteTicket = async (
   endpointBaseUrl: string,
   botpressConversationId: string
 ) => {
-  const closeTicketPayload = CloseRemoteTicketPayload.parse({
+  const closeRemoteTicketPayload = CloseRemoteTicketPayload.parse({
     type: "closeRemoteTicket",
     payload: { botpressConversationId },
   });
   const response = await axios.post(
     `${endpointBaseUrl}/closeRemoteTicket`,
-    closeTicketPayload
+    closeRemoteTicketPayload
   );
   return CloseRemoteTicketResponse.parse(response.data);
 };
@@ -136,10 +130,11 @@ export const closeRemoteTicket = async (
  *               $ref: '#/components/schemas/CreateRemoteUserResponse'
  */
 export const createRemoteUser = async (endpointBaseUrl: string, input: any) => {
-  const createRemoteUserPayload = CreateRemoteUserPayload.parse({
+  const payload = {
     type: "createRemoteUser",
     payload: { role: "end-user", ...input },
-  });
+  }
+  const createRemoteUserPayload = CreateRemoteUserPayload.parse(payload);
   const response = await axios.post(
     `${endpointBaseUrl}/createRemoteUser`,
     createRemoteUserPayload
@@ -164,10 +159,6 @@ export const createRemoteUser = async (endpointBaseUrl: string, input: any) => {
  *     responses:
  *       200:
  *         description: Message sent successfully.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/BotSendsMessageResponse'
  */
 export const botSendsMessage = async (
   endpointBaseUrl: string,
@@ -187,5 +178,6 @@ export const botSendsMessage = async (
     `${endpointBaseUrl}/botSendsMessage`,
     botSendsMessagePayload
   );
-  return BotSendsMessageResponse.parse(response.data);
+
+  return response.data;
 };

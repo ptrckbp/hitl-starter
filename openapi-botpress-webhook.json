@@ -115,23 +115,7 @@
           },
           "payload": {
             "type": "object",
-            "properties": {
-              "role": {
-                "type": "string",
-                "enum": [
-                  "end-user"
-                ]
-              },
-              "name": {
-                "type": "string"
-              },
-              "email": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "role"
-            ]
+            "properties": {}
           }
         },
         "required": [
@@ -157,14 +141,15 @@
               "remoteUserId": {
                 "type": "string"
               },
-              "text": {
-                "type": "string"
+              "payload": {
+                "type": "object",
+                "properties": {}
               }
             },
             "required": [
               "remoteConversationId",
               "remoteUserId",
-              "text"
+              "payload"
             ]
           }
         },
@@ -192,7 +177,7 @@
           "agentDisplayName"
         ]
       },
-      "CloseTicketPayload": {
+      "StopHitlPayload": {
         "type": "object",
         "properties": {
           "remoteConversationId": {
@@ -202,10 +187,6 @@
         "required": [
           "remoteConversationId"
         ]
-      },
-      "PingResponse": {
-        "type": "object",
-        "properties": {}
       },
       "CreateRemoteConversationResponse": {
         "type": "object",
@@ -240,25 +221,10 @@
         "properties": {
           "id": {
             "type": "string"
-          },
-          "role": {
-            "type": "string"
           }
         },
         "required": [
-          "id",
-          "role"
-        ]
-      },
-      "BotSendsMessageResponse": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "status"
+          "id"
         ]
       }
     },
@@ -315,7 +281,7 @@
         }
       }
     },
-    "/close-ticket": {
+    "/stop-hitl": {
       "post": {
         "summary": "Stop the human-in-the-loop (HITL) session and close the ticket.",
         "tags": [
@@ -328,7 +294,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CloseTicketPayload"
+                "$ref": "#/components/schemas/StopHitlPayload"
               }
             }
           }

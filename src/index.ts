@@ -1,15 +1,16 @@
-import * as botpress from '.botpress';
-import axios from 'axios';
+import * as botpress from ".botpress";
 import {
   pingExternalService,
   createRemoteConversation,
   closeRemoteTicket,
   createRemoteUser,
-} from './externalService'; 
-import { handler } from './handler'; 
+  botSendsMessage,
+} from "./externalService";
+import { handler } from "./handler";
 
 // Helper function to send raw payload
 const sendRawPayload = async ({
+  client,
   payload,
   conversation,
   ctx,
@@ -21,14 +22,14 @@ const sendRawPayload = async ({
   ctx: any;
   user: any;
 }) => {
-  await axios.post(ctx.configuration.endpointBaseUrl, {
-    type: 'botSendsMessage',
-    payload: {
-      ...payload, // Send the entire payload as-is
-      remoteConversationId: conversation.tags.externalId,
-      remoteUserId: user.tags.externalId,
-    },
-  });
+  const externalUserId = payload.userId ? (await client.getUser({ id: payload.userId })).tags.externalId : "BOT"; 
+
+  await botSendsMessage(
+    ctx.configuration.endpointBaseUrl,
+    conversation.tags.externalId,
+    externalUserId,
+    payload
+  );
 };
 
 export default new botpress.Integration({
@@ -38,10 +39,15 @@ export default new botpress.Integration({
   unregister: async () => {},
   actions: {
     startHitl: async ({ ctx, input, client }) => {
-      const remoteTicket = await createRemoteConversation(ctx.configuration.endpointBaseUrl, input);
+      const remoteTicket = await createRemoteConversation(
+        ctx.configuration.endpointBaseUrl,
+        input
+      );
 
-      const { conversation: { id: conversationId } } = await client.createConversation({
-        channel: 'hitl',
+      const {
+        conversation: { id: conversationId },
+      } = await client.createConversation({
+        channel: "hitl",
         tags: {
           externalId: remoteTicket.id,
         },
@@ -52,11 +58,17 @@ export default new botpress.Integration({
       };
     },
     stopHitl: async ({ ctx, input }) => {
-      await closeRemoteTicket(ctx.configuration.endpointBaseUrl, input.conversationId);
+      await closeRemoteTicket(
+        ctx.configuration.endpointBaseUrl,
+        input.conversationId
+      );
       return {};
     },
     createUser: async ({ ctx, client: bpClient, input }) => {
-      const remoteUser = await createRemoteUser(ctx.configuration.endpointBaseUrl, input);
+      const remoteUser = await createRemoteUser(
+        ctx.configuration.endpointBaseUrl,
+        input
+      );
 
       const { user } = await bpClient.createUser({
         tags: {
