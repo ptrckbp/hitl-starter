@@ -21,8 +21,6 @@ import {
  *      - Endpoints to implement
  *     description: An authenticated endpoint that allows your service to say it's ready to receive requests.
  *     operationId: pingExternalService
- *     servers:
- *       - url: https://YOUR_SERVICE.COM
  *     responses:
  *       200:
  *         description: Successful ping.
@@ -48,8 +46,6 @@ export const pingExternalService = async (endpointBaseUrl: string) => {
  *      - Endpoints to implement
  *     description: Creates a remote conversation on your service. This is required for the HITL process to work.
  *     operationId: createRemoteConversation
- *     servers:
- *       - url: https://YOUR_SERVICE.COM
  *     requestBody:
  *       content:
  *         application/json:
@@ -89,8 +85,6 @@ export const createRemoteConversation = async (
  *      - Endpoints to implement
  *     description: Closes a ticket on your service. Once closed, no further actions are expected for this conversation.
  *     operationId: closeRemoteTicket
- *     servers:
- *       - url: https://YOUR_SERVICE.COM
  *     requestBody:
  *       content:
  *         application/json:
@@ -128,8 +122,6 @@ export const closeRemoteTicket = async (
  *      - Endpoints to implement
  *     description: Creates a user on your service. This is necessary to associate users with conversations in the HITL process.
  *     operationId: createRemoteUser
- *     servers:
- *       - url: https://YOUR_SERVICE.COM
  *     requestBody:
  *       content:
  *         application/json:
@@ -164,8 +156,6 @@ export const createRemoteUser = async (endpointBaseUrl: string, input: any) => {
  *      - Endpoints to implement
  *     description: Sends a message from the bot to the agent conversation on your service as part of the HITL process.
  *     operationId: botSendsMessage
- *     servers:
- *       - url: https://YOUR_SERVICE.COM
  *     requestBody:
  *       content:
  *         application/json:

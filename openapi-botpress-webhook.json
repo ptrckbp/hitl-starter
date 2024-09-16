@@ -1,14 +1,19 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Botpress HITL API",
+    "title": "Botpress HITL API - Call API",
     "version": "1.0.0",
     "description": "The Botpress HITL API to interact with conversations"
   },
   "servers": [
     {
-      "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID",
-      "description": "The Botpress HITL API endpoint to interact with conversations"
+      "url": "https://webhook.botpress.cloud/{webhookId}",
+      "variables": {
+        "webhookId": {
+          "default": "YOUR_WEBHOOK_ID",
+          "description": "The webhook id found in your bot's integration configuration page in the webhook url."
+        }
+      }
     }
   ],
   "components": {
@@ -284,11 +289,6 @@
         ],
         "description": "Receives a message from the agent and forwards it to the bot conversation.",
         "operationId": "messageFromAgent",
-        "servers": [
-          {
-            "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -314,11 +314,6 @@
         ],
         "description": "This endpoint is triggered when an agent is assigned to a conversation.",
         "operationId": "agentAssigned",
-        "servers": [
-          {
-            "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -344,11 +339,6 @@
         ],
         "description": "This endpoint is called when the agent stops the human-in-the-loop session.",
         "operationId": "stopHitl",
-        "servers": [
-          {
-            "url": "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID"
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {

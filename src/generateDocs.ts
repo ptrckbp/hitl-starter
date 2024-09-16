@@ -48,24 +48,30 @@ registry.register("BotSendsMessageResponse", BotSendsMessageResponse);
 const generator = new OpenApiGeneratorV3(registry.definitions);
 const openApiComponents = generator.generateComponents();
 
+
 // Swagger JSDoc options for Botpress Webhook API (handler.ts)
 const swaggerOptionsBotpressWebhook = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Botpress HITL API",
+      title: "Botpress HITL API - Call API",
       version: "1.0.0",
       description: "The Botpress HITL API to interact with conversations",
     },
     servers: [
       {
-        url: "https://webhook.botpress.cloud/YOUR_WEBHOOK_ID",
-        description: "The Botpress HITL API endpoint to interact with conversations",
+        url: "https://webhook.botpress.cloud/{webhookId}",
+        variables: {
+          webhookId: {
+            default: "YOUR_WEBHOOK_ID",
+            description: "The webhook id found in your bot's integration configuration page in the webhook url.",
+          },
+        },
       },
     ],
     components: openApiComponents.components, // Use the generated components from Zod
   },
-  apis: ["./src/handler.ts"], // Include only handler.ts
+  apis: ["./src/handler.ts"],
 };
 
 // Swagger JSDoc options for External Service API (externalService.ts)
@@ -73,19 +79,27 @@ const swaggerOptionsExternalService = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Botpress HITL API",
+      title: "Botpress HITL API - Endpoints to implement",
       version: "1.0.0",
-      description: "The API you need to implement on your end to receive HITL requests",
+      description:
+        "The API you need to implement on your end to receive HITL requests",
     },
     servers: [
       {
-        url: "https://YOUR_EXTERNAL_SERVICE.COM",
+        url: "https://{yourServiceBaseUrl}",
         description: "External Service URL",
+        variables: {
+          yourServiceBaseUrl: {
+            default: "YOUR_AGENT_SERVICE.com",
+            description:
+              "The domain of the external service that handles HITL requests",
+          },
+        },
       },
     ],
     components: openApiComponents.components, // Use the generated components from Zod
   },
-  apis: ["./src/externalService.ts"], // Include only externalService.ts
+  apis: ["./src/externalService.ts"],
 };
 
 // Generate Swagger specifications
@@ -93,8 +107,18 @@ const swaggerSpecBotpressWebhook = swaggerJSDoc(swaggerOptionsBotpressWebhook);
 const swaggerSpecExternalService = swaggerJSDoc(swaggerOptionsExternalService);
 
 // Write the Swagger specs to separate files
-fs.writeFileSync("./openapi-botpress-webhook.json", JSON.stringify(swaggerSpecBotpressWebhook, null, 2));
-fs.writeFileSync("./openapi-external-service.json", JSON.stringify(swaggerSpecExternalService, null, 2));
+fs.writeFileSync(
+  "./openapi-botpress-webhook.json",
+  JSON.stringify(swaggerSpecBotpressWebhook, null, 2)
+);
+fs.writeFileSync(
+  "./openapi-external-service.json",
+  JSON.stringify(swaggerSpecExternalService, null, 2)
+);
 
-console.log("OpenAPI JSON generated for Botpress Webhook at ./openapi-botpress-webhook.json");
-console.log("OpenAPI JSON generated for External Service at ./openapi-external-service.json");
+console.log(
+  "OpenAPI JSON generated for Botpress Webhook at ./openapi-botpress-webhook.json"
+);
+console.log(
+  "OpenAPI JSON generated for External Service at ./openapi-external-service.json"
+);

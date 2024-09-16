@@ -10,8 +10,6 @@ import { z } from "zod";
  *      - Calling the API
  *     description: Receives a message from the agent and forwards it to the bot conversation.
  *     operationId: messageFromAgent
- *     servers:
- *       - url: https://webhook.botpress.cloud/YOUR_WEBHOOK_ID
  *     requestBody:
  *       required: true
  *       content:
@@ -57,8 +55,6 @@ export const handleAgentMessage = async (
  *      - Calling the API
  *     description: This endpoint is triggered when an agent is assigned to a conversation.
  *     operationId: agentAssigned
- *     servers:
- *       - url: https://webhook.botpress.cloud/YOUR_WEBHOOK_ID
  *     requestBody:
  *       required: true
  *       content:
@@ -114,8 +110,6 @@ export const handleAgentAssigned = async (
  *      - Calling the API
  *     description: This endpoint is called when the agent stops the human-in-the-loop session.
  *     operationId: stopHitl
- *     servers:
- *       - url: https://webhook.botpress.cloud/YOUR_WEBHOOK_ID
  *     requestBody:
  *       required: true
  *       content:
